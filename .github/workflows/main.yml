@@ -2,22 +2,25 @@ name: 'Terrform'
 
 on:
  push:
-   branches: ["main"]
+   branches: [ "main" ]
  pull_request:
  
 permissions:
   contents: read 
   
 jobs:
- terraform:
-  name: 'Terraform'
-  runs-on: ubuntu-latest
-  environment: AWS
-  
-defaults:
-  run:
-   shell: bash
-
-steps:
- - name: Terraform
-   run: terraform init 
+  terraform:
+   name: 'Terraform'
+   runs-on: ubuntu-latest
+   steps:
+     - name: 'Checkout'
+       uses: actions/checkout@main
+     - name: 'terraform-init'
+       uses: hasicrops/terraform-gitub-actions@main
+       with: 
+         tf_actions_version: 0.12.13
+         tf_actions_subcommand: 'init'
+         tf_actions_working_dir: '.'
+         
+       
+ 
