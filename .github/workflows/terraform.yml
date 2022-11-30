@@ -24,13 +24,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-      #aws creds
-    - name: Configure AWS Credentials Action For githu Actions
+    
+    - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}
-        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2 
+    - name: Setup Terraform CLI
+      uses: hashicorp/setup-terraform@v2.0.2
         
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
