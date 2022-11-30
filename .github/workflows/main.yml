@@ -16,7 +16,6 @@ jobs:
      - name: 'Checkout'
        uses: actions/checkout@main
      - name: 'terraform-init'
-       uses: hasicrops/terraform-gitub-actions@main
        with: 
          tf_actions_version: 0.12.13
          tf_actions_subcommand: 'init'
