@@ -1,0 +1,23 @@
+name: 'Terrform'
+
+on:
+ push:
+   branches: ["main"]
+ pull_request:
+ 
+permissions:
+  contents: read 
+  
+jobs:
+ terraform:
+  name: 'Terraform'
+  runs-on: ubuntu-latest
+  environment: AWS
+  
+defaults:
+  run:
+   shell: bash
+
+steps:
+ - name: Terraform
+   run: terraform init 
