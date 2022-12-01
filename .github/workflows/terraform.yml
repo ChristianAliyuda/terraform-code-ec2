@@ -30,7 +30,7 @@ jobs:
           audience: sts.amazonaws.com
           aws-access-key-id        : ${{ secrets.MY_AWS_ACCESS_KEY }}
           aws-secret-access-key    : ${{ secrets.MY_AWS_SECRET_KEY }}
-          aws-region               : ${{ env.AWS_REGION_NAME }}
+          aws-region               : us-east-1
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
