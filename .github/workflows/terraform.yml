@@ -24,17 +24,10 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
-        id: init
-        run: |
-            rm -rf .terraform
-            terraform init
+        run: terrform init
 
       - name: Terraform Plan
-        id: plan
-        if: github.event_name == 'push'
-        run: terraform plan -no-color
-        working-directory: "./cloudwatch-module"
+        run: terrafom plan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
