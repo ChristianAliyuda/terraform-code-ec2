@@ -1,43 +1,40 @@
-name: Terraform 
+
+name: "terraform-deploy"
 
 on:
-   push:
-    branches: [ main ]
-   pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  tf_code_check:
-    name: Terraform Validation and Build
+  terraform:
+    name: "Terraform"
     runs-on: ubuntu-latest
+    env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         AWS_DEFAULT_REGION: us-east-1
+
     steps:
-    - uses: actions/checkout@v2.5.0
-    
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Configure AWS Credentials Action For GitHub Actions
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1 
-    - name: Setup Terraform CLI
-      uses: hashicorp/setup-terraform@v2.0.2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - name: Terraform init, plan and apply
-      run: terraform init
-        
-        echo "** Running Terraform Validate**"
-        terraform validate
-        
-        echo "** Running Terraform Plan**"
-        terraform plan
-        
-#        echo "** Running Terraform Apply**"
-#        terraform apply -auto-approve
-      working-directory: ${{ github.event.inputs.tfpath }}
-    - name: Terraform Destroy
-      run: |
-        echo "** Running Terraform Destroy**"
-        terraform plan -destroy
-#        terraform destroy -auto-approve
-      working-directory: ${{ github.event.inputs.tfpath }}
+      - name: Terraform Init
+        id: init
+        run: |
+            rm -rf .terraform
+            terraform init
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'push'
+        run: terraform plan -no-color
+        working-directory: "./cloudwatch-module"
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve
