@@ -38,5 +38,5 @@ jobs:
         id: plan
         run: terraform plan 
           
-      - name: Terraform apply
+      - name: Terraform destroy
         run: terraform destroy -auto-approve
