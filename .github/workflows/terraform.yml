@@ -32,15 +32,12 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: |
-          terraform init 
+        run: terraform init 
         
       - name: Terraform plan
         id: plan
         working-directory: ./terraform
-        run: |
-          terraform plan 
+        run: terraform plan 
           
       - name: Terraform apply
-        run: |
-          terraform apply -auto-approve
+        run: terraform apply -auto-approve
